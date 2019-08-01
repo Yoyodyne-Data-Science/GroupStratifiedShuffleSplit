@@ -32,3 +32,21 @@ To make this concrete, we canconsider 4-fold cross-validation, as shown diagrama
 Here, we split our data into 4-folds, train a model on three of the folds (white cubes), and evaluate it on the fourth (grey cubes). We carry out this procedure four times, and can estimate the model's test error by evaluating the average test error of these four trials. (As a technical aside, it is interesting to note that there exists no unbiased estimator of the variance of such a k-fold cross-validation [(Bengio and Grandvalet, 2004)](www.jmlr.org/papers/volume5/grandvalet04a/grandvalet04a.pdf)).
 
 Using this procedure, we can happily perform our exploration of hyperparameter space, cross-validating at each point, computing a test error estimate from this, and selecting our best performing model. We can then evaluate this model on the held-out test data to give us an estimate of how well it will perform in the real world. 
+
+## Cross-validators
+
+There are a number of cross validators available to us as data scientists, here I'll review some of those provided by the `sklearn` library, loosely based on the summary shown here [here](https://scikit-learn.org/stable/auto_examples/model_selection/plot_cv_indices.html#sphx-glr-auto-examples-model-selection-plot-cv-indices-py).
+
+For this example, we'll consider a generated dataset of 20 students, each student has a name, a year of graduation, and a boolean indicator showing whether they went on to study at university or not. The first 5 rows of the dataframe are as follows:
+
+| name   | uni (y/n)   |   year |
+|:-------|:------------|-------:|
+| Daryl  | y           |   2014 |
+| Keith  | y           |   2014 |
+| Gwen   | n           |   2014 |
+| Sidney | n           |   2014 |
+| Elisha | n           |   2014 |
+
+We can also plot our dataset:
+
+![alt text](initial_data_plot.png "4-fold cross-validation")
