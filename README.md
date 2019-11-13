@@ -62,3 +62,23 @@ Now let's see how different cross-validators partition this dataset. First of al
 <p align="center">
   <img width="600" src="k_cv.png">
 </p>
+
+As we can see, at each 1/k cross-validation iteration, a 1/k (i.e. a quarter in this example) of the data is held out for testing (shown in <span style="color:#D14124">red</span>) while the rest is used for training (shown in <span style="color:#0957C3">blue</span>).
+
+The `year` and `uni (y/n)` are ignored in determining the train-test splits of the k-fold cross-validation, but we might imagine a situation where we'd like to take them into account. Perhaps we're training a model to predict which students will go on to study at university. As we can see, our dataset is very imbalanced with regards to this target variable. We'd like our training-test splits to reflect this. Luckily, `StratifiedKFold` does just that.
+
+### Stratified k-fold
+
+<p align="center">
+  <img width="600" src="k_stratified_cv.png">
+</p>
+
+We can see that the train-test splits reflect the stratification of the dataset with regards to the target variable `uni (y/n)` (though only approximately in this case as we have 6 `uni (y/n)=y` cases to split between 4 folds).
+
+### Grouped k-fold
+
+We might also want a k-fold stratifier that takes account of how our data is grouped, `GroupKFold` keeps groups separated from eachother in the train-test splits. In this case the group is graduation year, and we only have three such years, so only three splits are possible:
+
+<p align="center">
+  <img width="600" src="k_grouped_cv.png">
+</p>
