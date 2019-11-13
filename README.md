@@ -151,9 +151,9 @@ Firstly, we calculate some aggregates for all groups in our data, namely; the nu
 
 Next we randomly select (without replacement) one group and add it (i.e. all entries belonging to that group) to the training set:
 
-![alt text](table_2.png "Randomly select a single group")
+![alt text](table_2.PNG "Randomly select a single group")
 
-The first thing to check now that we've begun contructing our training set is the ratio of train to test splits. The user specifies a ratio $R_{tt} := N_{test}/N_{train}$ and we want to get as close to that as possible, so we check that the current number of entries in our (under construction) training set, let's call it $N_{train,1}$ (it's simply = 45 in our example here) is sufficient. That is, if: 
+The first thing to check now that we've begun contructing our training set is the ratio of train to test splits. The user specifies a ratio _R_<sub>tt</sub> &#8788; N_{test}/N_{train}$ and we want to get as close to that as possible, so we check that the current number of entries in our (under construction) training set, let's call it $N_{train,1}$ (it's simply = 45 in our example here) is sufficient. That is, if: 
 
 $$\frac{N-N_{train,1}}{N_{train,1}} > R_{tt} $$
 
@@ -162,4 +162,4 @@ Then we must add further groups to our training set. Let's safely assume that fo
 The stratified nature of the cross-validator means that we are constrained to have a class imbalance in our training set (approximately) equal to the class imbalance of the total data set. Let's call the total class imbalance, $I$, and the current (under construction) training set imbalance $I_{train,1}$ (it's = 0.178 in our example currently). When choosing a new group, we'd clearly like to make the choice such that the next iteration of our training set has an imbalance $I_{train,2}$ which is closer to $I$ than $I_{train,1}$ was. Simply put, if 
 
 
-![alt text](table_3.png "Assign probabilities to all other groups")
+![alt text](table_3.PNG "Assign probabilities to all other groups")
