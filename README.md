@@ -124,3 +124,42 @@ Following the last two examples, we might expect the next cross-validator to fol
 ### A (too) simple example
 
 For our previous example, each group (school year) had the same proportion of students going on to study at university, therefore the `GroupStratifiedShuffleSplit` cross-validator performs similarly to `GroupShuffleSplit`:
+
+<p align="center">
+  <img width="600" src="group_stratified_shuffle_split_cv.png">
+</p>
+
+### The Difficulty in splitting by Group and keeping things Stratified
+
+In a more realistic scenario, each group will typically contain a different proportion of 'positive' and 'negative' (as defined by the target variable) samples. What we'd like is to specify a train-test ratio (e.g. 0.8-0.2), then let our cross-validator go ahead and sort the data into train and test portions, with each group being in either of (but not both) the train or test split, and the train and test split being representative of the entire data set with respect to the target variable (i.e. stratified). We can then state our requirements as follows; our `GroupStratifiedShuffleSplit` cross validator should adhere to the following conditions:
+
+1. Each group occurs in either the test or train splits. The number of samples in train-test is specified as a ratio by the user, though we allow our cross validator to reach this ratio approximately, as the size of groups may make reaching an exact train-test split impossible. This is the `Group` part.
+
+2. Both the train and test splits contain a proportion of 'positive' and 'negative' (as defined by the target variable) samples which is representative of the entire data set. We let our cross-validator be approximately representative as condition 1. already constrains the CV quite strongly. This is the `Stratified` part.
+
+3. The train and test splits should be randomized on each iteration, otherwise we make redundant all the statistical merits of running multiple CV iterations. This is the `Shuffle` part.
+
+If we simply let our cross-validator randomly choose a number of groups for the train and test splits which achieve the closest value possible of the desired train-test split (i.e. conditions 1 and 3 are satisfied), we have no guarantee that the train and test data will be correctly stratified (i.e. condition 2 is not satisfied). Moreover, if we simply constrain the validator to find the best train-test split under the constraint that groups cannot be split between train and test (i.e. conditions 1 and 2 are satisfied), we have a unique solution and get the same split each time (i.e. condition 3 is not satisfied).
+
+### How we select samples for the training set
+
+Here we'll go into detail about how we circumvent some of the problems raised in the previous section. We'll talk about forming the training set, the test set will then simply be formed of all the entries not used in the training set (we could equivalently build the test set in this manner, then form a training set from all entries not selected for the training set).
+
+Firstly, we calculate some aggregates for all groups in our data, namely; the number of entries ($N_{entries}$), the number of those entries with target variable `= True` ($N_{target}$), and the proportion of target variable `= True` within the group ($N_{target}$/$N_{entries}$). This gives us a table which looks something like this:
+
+![alt text](table_1.png "Aggregate table for groups appearing in data set")
+
+Next we randomly select (without replacement) one group and add it (i.e. all entries belonging to that group) to the training set:
+
+![alt text](table_2.png "Randomly select a single group")
+
+The first thing to check now that we've begun contructing our training set is the ratio of train to test splits. The user specifies a ratio $R_{tt} := N_{test}/N_{train}$ and we want to get as close to that as possible, so we check that the current number of entries in our (under construction) training set, let's call it $N_{train,1}$ (it's simply = 45 in our example here) is sufficient. That is, if: 
+
+$$\frac{N-N_{train,1}}{N_{train,1}} > R_{tt} $$
+
+Then we must add further groups to our training set. Let's safely assume that for our ficticious dataset this is the case. Then we need to add some more entries, i.e. another group, to our training set. But which group should we choose? 
+
+The stratified nature of the cross-validator means that we are constrained to have a class imbalance in our training set (approximately) equal to the class imbalance of the total data set. Let's call the total class imbalance, $I$, and the current (under construction) training set imbalance $I_{train,1}$ (it's = 0.178 in our example currently). When choosing a new group, we'd clearly like to make the choice such that the next iteration of our training set has an imbalance $I_{train,2}$ which is closer to $I$ than $I_{train,1}$ was. Simply put, if 
+
+
+![alt text](table_3.png "Assign probabilities to all other groups")
