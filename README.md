@@ -82,3 +82,45 @@ We might also want a k-fold stratifier that takes account of how our data is gro
 <p align="center">
   <img width="600" src="k_grouped_cv.png">
 </p>
+
+## Beyond k-fold cross-validators
+
+The previous classifiers use some form of k-fold methodology, where the dataset is split into k-times, and each data point (students in our example) appears in the testing split once, and the training split (k-1) times. These folds and splits are uniquely defined from the moment we choose our classifier. However, to imporve generalization we may want to randomly sample train and test groups from our data at each validation iteration. This will have the disadvantage, for example, that data points may pop-up multiple times in the test split. The flip side is that it will give us much more freedom in our cross-validation, e.g. we might choose a 9:1 train:test split to be run for 5 iterations, whereas running this ratio for k-fold validation would require 10 iterations, and therefore be twice as computationally expensive.
+
+These types of cross-validators are denoted by the word "Shuffle" in `sklearn`, as they randomly shuffle the dataset before each cross-validations iteration. Let's look at how they apply to our example data.
+
+### Shuffle Split
+
+As described above, `ShuffleSplit` allows us to specify a test size (here it's 0.25, as before), and a number of iterations to perform (we choose 4)
+
+<p align="center">
+  <img width="600" src="shuffle_split_cv.png">
+</p>
+
+Note that due to the randomized nature, some students appear in the test split multiple times.
+
+### Stratified Shuffle Split
+
+`StratifiedShuffleSplit` takes account of the stratification of the entire dataset with regards to some target variable (which here is `uni (y/n)` again)
+
+<p align="center">
+  <img width="600" src="strat_shuffle_split_cv.png">
+</p>
+
+### Group Shuffle Split
+
+`GroupShuffleSplit` ignores the stratification of the dataset with regards to target variable, but ensures that different groups are seperated in training and testing (our groups here are the graduation years)
+
+<p align="center">
+  <img width="600" src="group_shuffle_split_cv.png">
+</p>
+
+Ok, so for 3 groups (school years in our case) the result is rather trivial, but we can see how this cross validator keeps groups seperated in train and test, doing this randomly with each CV iteration.
+
+## Group Stratified Shuffle Split
+
+Following the last two examples, we might expect the next cross-validator to follow would be one which captured the essence of its two predecesors. That is, a cross-validator which keeps groups seperated between train and test splits, as well as ensuring that the proportion of 'positive' or 'negative' samples (i.e. based on a defined target variable) in the train and test split (ensuring this is the case for either the train or test is clearly sufficient) are representative of the dataset as a whole (i.e. stratified).
+
+### A (too) simple example
+
+For our previous example, each group (school year) had the same proportion of students going on to study at university, therefore the `GroupStratifiedShuffleSplit` cross-validator performs similarly to `GroupShuffleSplit`:
