@@ -159,11 +159,9 @@ The first thing to check now that we've begun contructing our training set is th
 <img src="https://latex.codecogs.com/svg.latex?\frac{N-N_{train,1}}{N_{train,1}}&space;>&space;R_{tt}" title="\frac{N-N_{train,1}}{N_{train,1}} > R_{tt}" />
 </p>
 
-$$\frac{N-N_{train,1}}{N_{train,1}} > R_{tt} $$
+then we must add further groups to our training set. Let's safely assume that for our ficticious dataset this is the case. Then we need to add some more entries, i.e. another group, to our training set. But which group should we choose? 
 
-Then we must add further groups to our training set. Let's safely assume that for our ficticious dataset this is the case. Then we need to add some more entries, i.e. another group, to our training set. But which group should we choose? 
-
-The stratified nature of the cross-validator means that we are constrained to have a class imbalance in our training set (approximately) equal to the class imbalance of the total data set. Let's call the total class imbalance, $I$, and the current (under construction) training set imbalance $I_{train,1}$ (it's = 0.178 in our example currently). When choosing a new group, we'd clearly like to make the choice such that the next iteration of our training set has an imbalance $I_{train,2}$ which is closer to $I$ than $I_{train,1}$ was. Simply put, if 
+The stratified nature of the cross-validator means that we are constrained to have a class imbalance in our training set (approximately) equal to the class imbalance of the total data set. Let's call the total class imbalance, _I_, and the current (under construction) training set imbalance _I_<sub>train,1</sub> (it's = 0.178 in our example currently). When choosing a new group, we'd clearly like to make the choice such that the next iteration of our training set has an imbalance _I_<sub>train,2</sub> which is closer to _I_ than _I_<sub>train,1</sub> was. Simply put, if 
 
 
 ![alt text](table_3.PNG "Assign probabilities to all other groups")
