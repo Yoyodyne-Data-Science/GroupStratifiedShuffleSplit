@@ -50,7 +50,7 @@ For this example, we'll consider a generated dataset of 20 students, each studen
 We can also plot our dataset:
 
 <p align="center">
-  <img width="460" src="initial_data_plot.png">
+  <img width="600" src="initial_data_plot.png">
 </p>
 
 # [alt text](initial_data_plot.png "4-fold cross-validation")
