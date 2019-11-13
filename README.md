@@ -39,14 +39,18 @@ There are a number of cross validators available to us as data scientists, here 
 
 For this example, we'll consider a generated dataset of 20 students, each student has a name, a year of graduation, and a boolean indicator showing whether they went on to study at university or not. The first 5 rows of the dataframe are as follows:
 
-| name   | uni (y/n)   |   year |
-|:-------|:------------|-------:|
-| Daryl  | y           |   2014 |
-| Keith  | y           |   2014 |
-| Gwen   | n           |   2014 |
-| Sidney | n           |   2014 |
-| Elisha | n           |   2014 |
+| name    | uni (y/n)   |   year |
+|:--------|:------------|-------:|
+| Emmer   | y           |   2014 |
+| Terrell | y           |   2014 |
+| Ulysses | n           |   2014 |
+| Maxie   | n           |   2014 |
+| Phillip | n           |   2014 |
 
 We can also plot our dataset:
 
-![alt text](initial_data_plot.png "4-fold cross-validation")
+<p align="center">
+  <img width="460" height="300" src="initial_data_plot.png">
+</p>
+
+# [alt text](initial_data_plot.png "4-fold cross-validation")
