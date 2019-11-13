@@ -153,7 +153,9 @@ Next we randomly select (without replacement) one group and add it (i.e. all ent
 
 ![alt text](table_2.PNG "Randomly select a single group")
 
-The first thing to check now that we've begun contructing our training set is the ratio of train to test splits. The user specifies a ratio _R_<sub>tt</sub> &#8797; _N_<sub>test</sub>/_N_<sub>train</sub> and we want to get as close to that as possible, so we check that the current number of entries in our (under construction) training set, let's call it N_<sub>train,1</sub> (it's simply = 45 in our example here), is sufficient. That is, if: 
+The first thing to check now that we've begun contructing our training set is the ratio of train to test splits. The user specifies a ratio _R_<sub>tt</sub> &#8797; _N_<sub>test</sub>/_N_<sub>train</sub> and we want to get as close to that as possible, so we check that the current number of entries in our (under construction) training set, let's call it _N_<sub>train,1</sub> (it's simply = 45 in our example here), is sufficient. That is, if: 
+
+<img src="https://latex.codecogs.com/svg.latex?\Large&space;x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}" title="\Large x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}" />
 
 $$\frac{N-N_{train,1}}{N_{train,1}} > R_{tt} $$
 
