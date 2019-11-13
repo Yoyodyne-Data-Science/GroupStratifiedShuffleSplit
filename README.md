@@ -53,4 +53,12 @@ We can also plot our dataset:
   <img width="600" src="initial_data_plot.png">
 </p>
 
-# [alt text](initial_data_plot.png "4-fold cross-validation")
+Where the graduation year (<span style="color:#008330">2014</span>, <span style="color:#F2A900">2015</span>, <span style="color:#6CACE4">2016</span>) for each student and whether they went on to attend uni (<span style="color:#6B3077">yes</span>, <span style="color:#2CD5C4">no</span>) is noted.
+
+### k-fold CV
+
+Now let's see how different cross-validators partition this dataset. First of all we'll consider the k-fold cross validation described above, just as in that description, we'll use 4-folds.
+
+<p align="center">
+  <img width="600" src="k_cv.png">
+</p>
