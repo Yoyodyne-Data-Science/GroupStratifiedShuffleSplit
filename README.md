@@ -131,7 +131,7 @@ For our previous example, each group (school year) had the same proportion of st
 
 ### The Difficulty in splitting by Group and keeping things Stratified
 
-In a more realistic scenario, each group will typically contain a different proportion of 'positive' and 'negative' (as defined by the target variable) samples. What we'd like is to specify a train-test ratio (e.g. 0.8-0.2), then let our cross-validator go ahead and sort the data into train and test portions, with each group being in either of (but not both) the train or test split, and the train and test split being representative of the entire data set with respect to the target variable (i.e. stratified). We can then state our requirements as follows; our `GroupStratifiedShuffleSplit` cross validator should adhere to the following conditions:
+In a more realistic scenario, each group will typically contain a different proportion of 'positive' and 'negative' (as defined by the target variable) samples. What we'd like is to specify a train:test ratio (e.g. 0.8:0.2), then let our cross-validator go ahead and sort the data into train and test portions, with each group being in either of (but not both) the train or test split, and the train and test split being representative of the entire data set with respect to the target variable (i.e. stratified). We can then state our requirements as follows; our `GroupStratifiedShuffleSplit` cross validator should adhere to the following conditions:
 
 1. Each group occurs in either the test or train splits. The number of samples in train-test is specified as a ratio by the user, though we allow our cross validator to reach this ratio approximately, as the size of groups may make reaching an exact train-test split impossible. This is the `Group` part.
 
@@ -145,7 +145,7 @@ If we simply let our cross-validator randomly choose a number of groups for the 
 
 Here we'll go into detail about how we circumvent some of the problems raised in the previous section. We'll talk about forming the training set, the test set will then simply be formed of all the entries not used in the training set (we could equivalently build the test set in this manner, then form a training set from all entries not selected for the training set).
 
-Firstly, we calculate some aggregates for all groups in our data, namely; the number of entries ($N_{entries}$), the number of those entries with target variable `= True` ($N_{target}$), and the proportion of target variable `= True` within the group ($N_{target}$/$N_{entries}$). This gives us a table which looks something like this:
+Firstly, we calculate some aggregates for all groups in our data, namely; the number of entries (_N_{entries}_), the number of those entries with target variable `= True` ($N_{target}$), and the proportion of target variable `= True` within the group ($N_{target}$/$N_{entries}$). This gives us a table which looks something like this:
 
 ![alt text](table_1.png "Aggregate table for groups appearing in data set")
 
