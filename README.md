@@ -145,9 +145,7 @@ If we simply let our cross-validator randomly choose a number of groups for the 
 
 Here we'll go into detail about how we circumvent some of the problems raised in the previous section. We'll talk about forming the training set, the test set will then simply be formed of all the entries not used in the training set (we could equivalently build the test set in this manner, then form a training set from all entries not selected for the training set).
 
-h<sub>&theta;</sub>(x) = &theta;<sub>o</sub> x + &theta;<sub>1</sub>x
-
-Firstly, we calculate some aggregates for all groups in our data, namely; the number of entries (_N_<sub>entries</sub>), the number of those entries with target variable `= True` ($N_{target}$), and the proportion of target variable `= True` within the group ($N_{target}$/$N_{entries}$). This gives us a table which looks something like this:
+Firstly, we calculate some aggregates for all groups in our data, namely; the number of entries (_N_<sub>entries</sub>), the number of those entries with target variable `= True` (_N_<sub>target</sub>), and the proportion of target variable `= True` within the group (_N_<sub>target</sub>/_N_<sub>entries</sub>). This gives us a table which looks something like this:
 
 ![alt text](table_1.png "Aggregate table for groups appearing in data set")
 
