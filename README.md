@@ -165,14 +165,16 @@ The stratified nature of the cross-validator means that we are constrained to ha
 
 Though this notation seems a little cumbersome, it's trying to get across that the imbalance is a function acting on some set of entries in our dataset. This function outputs the class imbalance of that set (a real number between 0 and 1). Additionally, we've denoted the set of entries in our in-construction training set after the first iteration -- i.e. having only chosen entries from a single group -- by _t_<sub>1</sub>. Generalizing, _t_<sub>_i_</sub> is the set of entries in our in-construction training set after adding entries from _i_ different groups (i.e. the _i_<sup>th</sup> iteration). Similarly, we denote the set of entries in group _j_ as _g_<sub>_j_</sub>. Hopefully this will make sense as we go on, but to give some concrete values from the example we have here; _I_(_t_<sub>1</sub>) = 0.178, _I_(_g_<sub>1</sub>) = 0.01, _I_(_g_<sub>3</sub>) = 0.25, ...
 
-Now, back to the matter of nulking up our training set. When choosing the next group to add to our training set, we'd clearly like to make the choice such that the next iteration of our training set has an imbalance _I_(_t_<sub>2</sub>) which is closer to _I_(_t_<sub>_N_</sub>) than _I_(_t_<sub>2</sub>) was. Simply put, if our training set currently contains too small a proportion of positive training examples, we'd like that the next group we add to our training set have a high proportion of positive training examples, and vice versa. 
+Now, back to the matter of bulking up our training set. When choosing the next group to add to our training set, we'd clearly like to make the choice such that the next iteration of our training set has an imbalance _I_(_t_<sub>2</sub>) which is closer to _I_(_t_<sub>_N_</sub>) than _I_(_t_<sub>2</sub>) was. Simply put, if our training set currently contains too small a proportion of positive training examples, we'd like that the next group we add to our training set have a high proportion of positive training examples, and vice versa. 
 
-Concretely, let's define &#916;<sub>_i_,_j_</sub> as:
+Concretely, let's define a value &#916;<sub>_1_,_j_</sub> for each group in our dataset as:
 
-
+<p align="center">
+<img src="https://latex.codecogs.com/gif.latex?\Delta_{1,j}&space;=&space;(I(t_1)-I(g_j))&space;\times&space;sgn(I(t_1)-I(t_N)))" title="\Delta_{1,j} = (I(t_1)-I(g_j)) \times sgn(I(t_1)-I(t_N)))" />
+</p>
 
 ![alt text](table_3.PNG "Assign probabilities to all other groups")
 
-![alt text](table_4.png "Assign probabilities to all other groups")
+![alt text](table_4.png "Randomly select another group to add based on probailities P1")
 
-![alt text](table_5.png "Assign probabilities to all other groups")
+![alt text](table_5.png "Once more, assign probabilities to all other groups")
