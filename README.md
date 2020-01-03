@@ -163,6 +163,6 @@ then we must add further groups to our training set. Let's safely assume that fo
 
 The stratified nature of the cross-validator means that we are constrained to have a class imbalance in our training set (approximately) equal to the class imbalance of the total data set. Let's call the total class imbalance, _I_, and the current (under construction) training set imbalance _I_<sub>train,1</sub> (it's = 0.178 in our example currently). When choosing a new group, we'd clearly like to make the choice such that the next iteration of our training set has an imbalance _I_<sub>train,2</sub> which is closer to _I_ than _I_<sub>train,1</sub> was. Simply put, if our training set currently contains too small a proportion of positive training examples, we'd like that the next group we add to our training set have a high proportion of positive training examples, and vice versa. 
 
-Concretely, let's define &#916 <sub>_g_,_i_</sub> 
+Concretely, let's define &#916; <sub>_g_,_i_</sub> 
 
 ![alt text](table_3.PNG "Assign probabilities to all other groups")
