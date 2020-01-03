@@ -85,7 +85,7 @@ We might also want a k-fold stratifier that takes account of how our data is gro
 
 ## Beyond k-fold cross-validators
 
-The previous classifiers use some form of k-fold methodology, where the dataset is split into k-times, and each data point (students in our example) appears in the testing split once, and the training split (k-1) times. These folds and splits are uniquely defined from the moment we choose our classifier. However, to imporve generalization we may want to randomly sample train and test groups from our data at each validation iteration. This will have the disadvantage, for example, that data points may pop-up multiple times in the test split. The flip side is that it will give us much more freedom in our cross-validation, e.g. we might choose a 9:1 train:test split to be run for 5 iterations, whereas running this ratio for k-fold validation would require 10 iterations, and therefore be twice as computationally expensive.
+The previous classifiers use some form of k-fold methodology, where the dataset is split into k chunks, and each data point (students in our example) appears in the testing split once, and the training split (k-1) times. These folds and splits are uniquely defined from the moment we choose our classifier. However, to improve generalization we may want to randomly sample train and test groups from our data at each validation iteration. This will have the disadvantage, for example, that data points may pop-up multiple times in the test split. The flip side is that it will give us much more freedom in our cross-validation, e.g. we might choose a 9:1 train:test split to be run for 5 iterations, whereas running this ratio for k-fold validation would require 10 iterations, and therefore be twice as computationally expensive.
 
 These types of cross-validators are denoted by the word "Shuffle" in `sklearn`, as they randomly shuffle the dataset before each cross-validations iteration. Let's look at how they apply to our example data.
 
@@ -131,7 +131,7 @@ For our previous example, each group (school year) had the same proportion of st
 
 ### The Difficulty in splitting by Group and keeping things Stratified
 
-In a more realistic scenario, each group will typically contain a different proportion of 'positive' and 'negative' (as defined by the target variable) samples. What we'd like is to specify a train:test ratio (e.g. 0.8:0.2), then let our cross-validator go ahead and sort the data into train and test portions, with each group being in either of (but not both) the train or test split, and the train and test split being representative of the entire data set with respect to the target variable (i.e. stratified). We can then state our requirements as follows; our `GroupStratifiedShuffleSplit` cross validator should adhere to the following conditions:
+In a more realistic scenario, each group will typically contain a different proportion of 'positive' and 'negative' (as defined by the target variable) samples. We'd like to specify a train:test ratio (e.g. 0.8:0.2), then let our cross-validator go ahead and sort the data into train and test portions, with each group being in either of (but not both) the train or test split, and the train and test split being representative of the entire data set with respect to the target variable (i.e. stratified). We can then state our requirements as follows; our `GroupStratifiedShuffleSplit` cross validator should adhere to the following conditions:
 
 1. Each group occurs in either the test or train splits. The number of samples in train-test is specified as a ratio by the user, though we allow our cross validator to reach this ratio approximately, as the size of groups may make reaching an exact train-test split impossible. This is the `Group` part.
 
@@ -159,9 +159,10 @@ The first thing to check now that we've begun contructing our training set is th
 <img src="https://latex.codecogs.com/svg.latex?\frac{N-N_{train,1}}{N_{train,1}}&space;>&space;R_{tt}" title="\frac{N-N_{train,1}}{N_{train,1}} > R_{tt}" />
 </p>
 
-then we must add further groups to our training set. Let's safely assume that for our ficticious dataset this is the case. Then we need to add some more entries, i.e. another group, to our training set. But which group should we choose? 
+then we must add further groups to our training set. Let's safely assume that for our ficticious dataset, after selecting a single group, this is the case. Then we need to add some more entries, i.e. another group, to our training set. But which group should we choose? 
 
-The stratified nature of the cross-validator means that we are constrained to have a class imbalance in our training set (approximately) equal to the class imbalance of the total data set. Let's call the total class imbalance, _I_, and the current (under construction) training set imbalance _I_<sub>train,1</sub> (it's = 0.178 in our example currently). When choosing a new group, we'd clearly like to make the choice such that the next iteration of our training set has an imbalance _I_<sub>train,2</sub> which is closer to _I_ than _I_<sub>train,1</sub> was. Simply put, if 
+The stratified nature of the cross-validator means that we are constrained to have a class imbalance in our training set (approximately) equal to the class imbalance of the total data set. Let's call the total class imbalance, _I_, and the current (under construction) training set imbalance _I_<sub>train,1</sub> (it's = 0.178 in our example currently). When choosing a new group, we'd clearly like to make the choice such that the next iteration of our training set has an imbalance _I_<sub>train,2</sub> which is closer to _I_ than _I_<sub>train,1</sub> was. Simply put, if our training set currently contains too small a proportion of positive training examples, we'd like that the next group we had to our training set has a high proportion of positive training examples, and vice versa. 
 
+Concretely, let's define &#x394<sub>_g_,_i_</sub> 
 
 ![alt text](table_3.PNG "Assign probabilities to all other groups")
