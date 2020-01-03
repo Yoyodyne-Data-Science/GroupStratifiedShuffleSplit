@@ -163,12 +163,16 @@ then we must add further groups to our training set. Let's safely assume that fo
 
 The stratified nature of the cross-validator means that we are constrained to have a class imbalance in our training set (approximately) equal to the class imbalance of the total data set. Let's call the total class imbalance, _I_(_t_<sub>_N_</sub>), and the current (under construction) training set imbalance _I_(_t_<sub>1</sub>). 
 
-Though this notation seems a little cumbersome, it's trying to get across that the imbalance is a function acting on some set of entries in our dataset. This function outputs the class imbalance of that set (a real number between 0 and 1). Additionally, we've denoted the set of entries in our in-construction training set after the first iteration -- i.e. having only chosen entries from a single group -- by _t_<sub>1</sub>. Generalizing, _t_<sub>_i_</sub> is the set of entries in our in-construction training set after adding entries from _i_ different groups (i.e. the _i_<sup>th</sup> iteration). Similarly, we denote the set of entries in group _j_ as _g_<sub>_j_</sub>.
+Though this notation seems a little cumbersome, it's trying to get across that the imbalance is a function acting on some set of entries in our dataset. This function outputs the class imbalance of that set (a real number between 0 and 1). Additionally, we've denoted the set of entries in our in-construction training set after the first iteration -- i.e. having only chosen entries from a single group -- by _t_<sub>1</sub>. Generalizing, _t_<sub>_i_</sub> is the set of entries in our in-construction training set after adding entries from _i_ different groups (i.e. the _i_<sup>th</sup> iteration). Similarly, we denote the set of entries in group _j_ as _g_<sub>_j_</sub>. Hopefully this will make sense as we go on, but to give some concrete values from the example we have here; _I_(_t_<sub>1</sub>) = 0.178, _I_(_g_<sub>1</sub>) = 0.01, _I_(_g_<sub>3</sub>) = 0.25, ...
 
-where the subscript denotes that we are on our first iteration of constructing our training set (i.e. we've added the entries belonging to a single group). In the case of our example here, _I_<sub>1</sub> = 0.178. When choosing the next group to add to our training set, we'd clearly like to make the choice such that the next iteration of our training set has an imbalance _I_<sub>2</sub> which is closer to _I_<sub>_N_</sub> than _I_<sub>1</sub> was. Simply put, if our training set currently contains too small a proportion of positive training examples, we'd like that the next group we add to our training set have a high proportion of positive training examples, and vice versa. 
+Now, back to the matter of nulking up our training set. When choosing the next group to add to our training set, we'd clearly like to make the choice such that the next iteration of our training set has an imbalance _I_(_t_<sub>2</sub>) which is closer to _I_(_t_<sub>_N_</sub>) than _I_(_t_<sub>2</sub>) was. Simply put, if our training set currently contains too small a proportion of positive training examples, we'd like that the next group we add to our training set have a high proportion of positive training examples, and vice versa. 
 
-Concretely, let's define &#916;<sub>_g_,_i_</sub> as:
+Concretely, let's define &#916;<sub>_i_,_j_</sub> as:
 
 
 
 ![alt text](table_3.PNG "Assign probabilities to all other groups")
+
+![alt text](table_4.png "Assign probabilities to all other groups")
+
+![alt text](table_5.png "Assign probabilities to all other groups")
