@@ -163,7 +163,7 @@ then we must add further groups to our training set. Let's safely assume that fo
 
 The stratified nature of the cross-validator means that we are constrained to have a class imbalance in our training set (approximately) equal to the class imbalance of the total data set. Let's call the total class imbalance, _I_(_t_<sub>_N_</sub>), and the current (under construction) training set imbalance _I_(_t_<sub>1</sub>). 
 
-Though this notation seems a little cumbersome, it's trying to get across that the imbalance is a function acting on some set of entries in our dataset. This function outputs the class imbalance of that set (a real number between 0 and 1). Additionally, we've denoted the set of entries in our in-construction training set after the first iteration -- i.e. having only chosen entries from a single group -- by _t_<sub>1</sub>. Generalizing, _t_<sub>_i_</sub> is the set of entries in our in-construction training set after adding entries from _i_ different groups (i.e. the _i_<sup>th</sup> iteration). Similarly, we denote the set of entries in group _j_ as _g_<sub>_j_</sub>. Hopefully this will make sense as we go on, but to give some concrete values from the example we have here; _I_(_t_<sub>1</sub>) = 0.178, _I_(_g_<sub>1</sub>) = 0.01, _I_(_g_<sub>3</sub>) = 0.25, ...
+Though this notation seems a little cumbersome, it's trying to get across that the imbalance is a function acting on some set of entries in our dataset. This function outputs the class imbalance of that set (a real number between 0 and 1). Additionally, we've denoted the set of entries in our (under construction) training set after the first iteration -- i.e. having only chosen entries from a single group -- by _t_<sub>1</sub>. Generalizing, _t_<sub>_i_</sub> is the set of entries in our (under construction) training set after adding entries from _i_ different groups (i.e. the _i_<sup>th</sup> iteration). Similarly, we denote the set of entries in group _j_ as _g_<sub>_j_</sub>. Hopefully this will make sense as we go on, but to give some concrete values from the example we have here; _I_(_t_<sub>1</sub>) = 0.178, _I_(_g_<sub>1</sub>) = 0.01, _I_(_g_<sub>3</sub>) = 0.25, ...
 
 Now, back to the matter of bulking up our training set. When choosing the next group to add to our training set, we'd clearly like to make the choice such that the next iteration of our training set has an imbalance _I_(_t_<sub>2</sub>) which is closer to _I_(_t_<sub>_N_</sub>) than _I_(_t_<sub>2</sub>) was. Simply put, if our training set currently contains too small a proportion of positive training examples, we'd like that the next group we add to our training set have a high proportion of positive training examples, and vice versa. 
 
@@ -180,12 +180,30 @@ If you inspect this value carefully, you'll see it has some properties we'd like
 <img src="https://latex.codecogs.com/gif.latex?P_1(j)&space;=&space;softmax(\Delta_{1,j}\beta)" title="P_1(j) = softmax(\Delta_{1,j}\beta)" />
 </p>
 
-where &#946; is a hyperparameter, or if you like, an inverse temprature. Now we simply calculate this value for all groups not yet selected in our in-construction training set...
+where &#946; is a hyperparameter, or if you like, an inverse temprature. Now we simply calculate this value for all groups not yet selected in our (under construction) training set...
 
 ![alt text](table_3.PNG "Assign probabilities to all other groups")
 
 ... and then select the next group based on these probablities _P_<sub>1</sub>.
 
 ![alt text](table_4.png "Randomly select another group to add based on probailities P1")
+
+Now we simply go ahead and repeat this process, calculating the current number of entries in our (under construction) training set, _N_<sub>train,2</sub>, (it's = 152 in our example here),
+and ensuring the inequality:
+
+<p align="center">
+<img src="https://latex.codecogs.com/gif.latex?\frac{N-N_{train,2}}{N_{train,2}}" <img src="https://latex.codecogs.com/gif.latex?\frac{N-N_{train,2}}{N_{train,2}}>R_{tt}" title="\frac{N-N_{train,2}}{N_{train,2}}>R_{tt}" />
+</p>
+
+holds, calculate updated probabilities for the remaining groups using the generalized forms of &#916; and _P_:
+
+<p align="center">
+<img src="https://latex.codecogs.com/gif.latex?\Delta_{i,j}=(I(t_i)-I(g_j))\times&space;sgn(I(t_i)-I(t_N)))" title="\Delta_{i,j}=(I(t_i)-I(g_j))\times sgn(I(t_i)-I(t_N)))" />
+</p>
+
+<p align="center">
+<img src="https://latex.codecogs.com/gif.latex?P_i(j)&space;=&space;softmax(\Delta_{i,j}\beta)" title="P_i(j) = softmax(\Delta_{i,j}\beta)" />
+</p>
+
 
 ![alt text](table_5.png "Once more, assign probabilities to all other groups")
