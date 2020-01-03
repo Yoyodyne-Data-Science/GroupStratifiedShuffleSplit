@@ -173,16 +173,18 @@ Concretely, let's define a value &#916;<sub>_1_,_j_</sub> for each group in our 
 <img src="https://latex.codecogs.com/gif.latex?\Delta_{1,j}&space;=&space;(I(t_1)-I(g_j))&space;\times&space;sgn(I(t_1)-I(t_N)))" title="\Delta_{1,j} = (I(t_1)-I(g_j)) \times sgn(I(t_1)-I(t_N)))" />
 </p>
 
-If you inspect this value carefully, you'll see it has some properties we'd like for choosing the next group to add. Concretely, if our training set currently contains too small a proportion of positive training examples (i.e. _sgn_(_I_(_t_<sub>1</sub>)-_I_(_t_<sub>_N_</sub>))<0) then, as we've already said, we'd like to add groups with a large proportion of positive examples (i.e. _I_(_t_<sub>1</sub>)-_I_(_g_<sub>_j_</sub>) < 0), i.e. groups with a large positive value of &#916;<sub>_1_,_j_</sub>. You should be able to work out that the converse scenario, also leads to desiring groups with large positive &#916;<sub>_1_,_j_</sub> for our next addition to the training set. We can transform this &#916;<sub>_1_,_j_</sub> into a probability via:
+If you inspect this value carefully, you'll see it has some properties we'd like for choosing the next group to add. Concretely, if our training set currently contains too small a proportion of positive training examples (i.e. _sgn_(_I_(_t_<sub>1</sub>)-_I_(_t_<sub>_N_</sub>))<0) then, as we've already said, we'd like to add groups with a large proportion of positive examples (i.e. _I_(_t_<sub>1</sub>)-_I_(_g_<sub>_j_</sub>) < 0), i.e. groups with a large positive value of &#916;<sub>_1_,_j_</sub>. You should be able to work out that the converse scenario also leads to desiring groups with large positive &#916;<sub>_1_,_j_</sub> for our next addition to the training set. We can transform this &#916;<sub>_1_,_j_</sub> into a probability via:
 
 
 <p align="center">
 <img src="https://latex.codecogs.com/gif.latex?P_1(j)&space;=&space;softmax(\Delta_{1,j}\beta)" title="P_1(j) = softmax(\Delta_{1,j}\beta)" />
 </p>
 
-where &#0370; is a hyperparameter, or if you like, an inverse temprature.
+where &#946; is a hyperparameter, or if you like, an inverse temprature. Now we simply calculate this value for all groups not yet selected in our in-construction training set...
 
 ![alt text](table_3.PNG "Assign probabilities to all other groups")
+
+... and then select the next group based on these probablities _P_<sub>1</sub>.
 
 ![alt text](table_4.png "Randomly select another group to add based on probailities P1")
 
