@@ -192,7 +192,7 @@ Now we simply go ahead and repeat this process, calculating the current number o
 and ensuring the inequality:
 
 <p align="center">
-<img src="https://latex.codecogs.com/gif.latex?\frac{N-N_{train,2}}{N_{train,2}}" <img src="https://latex.codecogs.com/gif.latex?\frac{N-N_{train,2}}{N_{train,2}}>R_{tt}" title="\frac{N-N_{train,2}}{N_{train,2}}>R_{tt}" />
+<img src="https://latex.codecogs.com/gif.latex?\frac{N-N_{train,2}}{N_{train,2}}&space;>&space;R_{tt}" title="\frac{N-N_{train,2}}{N_{train,2}} > R_{tt}" />
 </p>
 
 holds, calculate updated probabilities for the remaining groups using the generalized forms of &#916; and _P_:
@@ -205,5 +205,18 @@ holds, calculate updated probabilities for the remaining groups using the genera
 <img src="https://latex.codecogs.com/gif.latex?P_i(j)&space;=&space;softmax(\Delta_{i,j}\beta)" title="P_i(j) = softmax(\Delta_{i,j}\beta)" />
 </p>
 
-
 ![alt text](table_5.png "Once more, assign probabilities to all other groups")
+
+This process continues until we've added _k_ groups to our (under construction) training set s.t. the inequalities:
+
+<p align="center">
+<img src="https://latex.codecogs.com/gif.latex?\frac{N-N_{train,k}}{N_{train,k}}&space;\leq&space;R_{tt}" title="\frac{N-N_{train,k}}{N_{train,k}} \leq R_{tt}" />
+</p>
+
+and
+
+<p align="center">
+<img src="https://latex.codecogs.com/gif.latex?\frac{N-N_{train,k-1}}{N_{train,k-1}}&space;>&space;R_{tt}" title="\frac{N-N_{train,k-1}}{N_{train,k-1}} > R_{tt}" />
+</p>
+
+is as close to 
