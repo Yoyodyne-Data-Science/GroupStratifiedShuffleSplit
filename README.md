@@ -219,4 +219,4 @@ and
 <img src="https://latex.codecogs.com/gif.latex?\frac{N-N_{train,k-1}}{N_{train,k-1}}&space;>&space;R_{tt}" title="\frac{N-N_{train,k-1}}{N_{train,k-1}} > R_{tt}" />
 </p>
 
-is as close to 
+hold. Our comleted training et then contains either _k_ or _k-1_ entries, whichever gives a ratio closer to _R_<sub>tt</sub>.
