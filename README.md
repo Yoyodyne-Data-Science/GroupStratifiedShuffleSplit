@@ -37,7 +37,7 @@ Using this procedure, we can happily perform our exploration of hyperparameter s
 
 There are a number of cross validators available to us as data scientists, here we'll review some of those provided by the `sklearn` library, loosely based on the summary shown here [here](https://scikit-learn.org/stable/auto_examples/model_selection/plot_cv_indices.html#sphx-glr-auto-examples-model-selection-plot-cv-indices-py).
 
-For this example, we'll consider a generated dataset of 30 students, each student has a name (which we randomly sample from the dataset provided [here](https://github.com/hadley/data-baby-names/blob/master/baby-names.csv), a year of graduation, and a boolean indicator showing whether they went on to study at university or not. The first 5 rows of the dataframe are as follows:
+For this example, we'll consider a generated dataset of 30 students, each student has a name (which we randomly sample from the dataset provided [here](https://github.com/hadley/data-baby-names/blob/master/baby-names.csv)), a year of graduation, and a boolean indicator showing whether they went on to study at university or not. The first 5 rows of the dataframe are as follows:
 
 | name     | uni (y/n)   |   year |
 |:---------|:------------|-------:|
