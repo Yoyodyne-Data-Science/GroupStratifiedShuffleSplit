@@ -1,4 +1,4 @@
-![alt text](yoydyne_data_science_logo.png "Yoydyne Data Science")
+![alt text](images/yoydyne_data_science_logo.png "Yoydyne Data Science")
 
 
 # Group Stratified Shuffle Split (Binary)
@@ -11,7 +11,7 @@ When presented with a dataset containing various features along with some target
 
 To this end, we typically segregate our data into train and test splits, where the former is used to train our model, and the latter is used to evaluate its performance. That is, the test split is data excluded from the training process for the explicit purpose of validating our model's generalizability. So far, so good. 
 
-![alt text](fig_train_test_cubes.png "Train-test split")
+![alt text](images/fig_train_test_cubes.png "Train-test split")
 
 However, within the three words *train our model* lies a great deal of detail, and so as the [saying goes](https://en.wikipedia.org/wiki/The_devil_is_in_the_detail), also lies, the devil. For, even if we restrict ourselves to a single algorithm, we still have a (usually infinite) number of models to choose from. Take for example a [Random Forest](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html), we could train a given forest with a specified number of trees, class weight, maximum tree depth etc. on our training data, and then ascertain it's performance by evaluating it on the test data. Now however, say we have a feeling that altering some properties of our random forest (e.g. increasing the number of trees), will improve the performance of our model. We can again train this new forest on our training set, and decide to keep it or stick with our previous random forest depending on how well each performed on our test data.
 
@@ -19,7 +19,7 @@ But why stop there? We could repeat the same process, performing a search over a
 
 The problem however, is that in optimizing our model in such a manner, we have gone against our entire premise of splitting data into training and test; by holding out a portion of the data we were trying to ascertain how well a model would perform on unseen data, *but by refining hyperparameters on the test score we have unwittingly optimized a model which performs very well on the data we were given, and have no idea how it will generalize*. Essentially we have re-combined the train and test splits.
 
-![alt text](fig_train_notest_cubes.png "Train and test no longer split")
+![alt text](images/fig_train_notest_cubes.png "Train and test no longer split")
 
 ## Cross-validation saves the day
 
@@ -27,7 +27,7 @@ Fortunately, cross-validation provides us with a solution to this problem. Thoug
 
 To make this concrete, we can consider 4-fold cross-validation, as shown diagramatically below
 
-![alt text](fig_4_fold_cv.png "4-fold cross-validation")
+![alt text](images/fig_4_fold_cv.png "4-fold cross-validation")
 
 Here, we split our data into 4-folds, train a model on three of the folds (white cubes), and evaluate it on the fourth (grey cubes). We carry out this procedure four times, and can estimate the model's test error by evaluating the average test error of these four trials. (As a technical aside, it is interesting to note that there exists no unbiased estimator of the variance of such a k-fold cross-validation [(Bengio and Grandvalet, 2004)](www.jmlr.org/papers/volume5/grandvalet04a/grandvalet04a.pdf)).
 
@@ -37,20 +37,20 @@ Using this procedure, we can happily perform our exploration of hyperparameter s
 
 There are a number of cross validators available to us as data scientists, here we'll review some of those provided by the `sklearn` library, loosely based on the summary shown here [here](https://scikit-learn.org/stable/auto_examples/model_selection/plot_cv_indices.html#sphx-glr-auto-examples-model-selection-plot-cv-indices-py).
 
-For this example, we'll consider a generated dataset of 20 students, each student has a name, a year of graduation, and a boolean indicator showing whether they went on to study at university or not. The first 5 rows of the dataframe are as follows:
+For this example, we'll consider a generated dataset of 30 students, each student has a name (which we randomly sample from the dataset provided [here](https://github.com/hadley/data-baby-names/blob/master/baby-names.csv), a year of graduation, and a boolean indicator showing whether they went on to study at university or not. The first 5 rows of the dataframe are as follows:
 
-| name    | uni (y/n)   |   year |
-|:--------|:------------|-------:|
-| Emmer   | y           |   2014 |
-| Terrell | y           |   2014 |
-| Ulysses | n           |   2014 |
-| Maxie   | n           |   2014 |
-| Phillip | n           |   2014 |
+| name     | uni (y/n)   |   year |
+|:---------|:------------|-------:|
+| Billie   | y           |   2014 |
+| Carson   | y           |   2014 |
+| Evaline  | n           |   2014 |
+| Viviana  | n           |   2014 |
+| Penelope | n           |   2014 |
 
 We can also plot our dataset:
 
 <p align="center">
-  <img width="600" src="initial_data_plot.png">
+  <img width="600" src="images/initial_data_plot.png">
 </p>
 
 Where the graduation year (2014 (green), 2015 (yellow), 2016 cyan) for each student and whether they went on to attend uni (yes (purple), no (turquoise)) is noted.
@@ -60,7 +60,7 @@ Where the graduation year (2014 (green), 2015 (yellow), 2016 cyan) for each stud
 Now let's see how different cross-validators partition this dataset. First of all we'll consider the k-fold cross validation described above, just as in that description, we'll use 4-folds.
 
 <p align="center">
-  <img width="600" src="k_cv.png">
+  <img width="600" src="images/k_cv.png">
 </p>
 
 As we can see, at each 1/k cross-validation iteration, a 1/k (i.e. a quarter in this example) of the data is held out for testing (shown in <span style="color:#D14124">red</span>) while the rest is used for training (shown in <span style="color:#0957C3">blue</span>).
@@ -70,7 +70,7 @@ The `year` and `uni (y/n)` are ignored in determining the train-test splits of t
 ### Stratified k-fold
 
 <p align="center">
-  <img width="600" src="k_stratified_cv.png">
+  <img width="600" src="images/k_stratified_cv.png">
 </p>
 
 We can see that the train-test splits reflect the stratification of the dataset with regards to the target variable `uni (y/n)` (though only approximately in this case as we have 6 `uni (y/n)=y` cases to split between 4 folds).
@@ -80,7 +80,7 @@ We can see that the train-test splits reflect the stratification of the dataset 
 We might also want a k-fold stratifier that takes account of how our data is grouped, `GroupKFold` keeps groups separated from eachother in the train-test splits. In this case the group is graduation year, and we only have three such years, so only three splits are possible:
 
 <p align="center">
-  <img width="600" src="k_grouped_cv.png">
+  <img width="600" src="images/k_grouped_cv.png">
 </p>
 
 ## Beyond k-fold cross-validators
@@ -94,7 +94,7 @@ These types of cross-validators are denoted by the word "Shuffle" in `sklearn`, 
 As described above, `ShuffleSplit` allows us to specify a test size (here it's 0.25, as before), and a number of iterations to perform (we choose 4)
 
 <p align="center">
-  <img width="600" src="shuffle_split_cv.png">
+  <img width="600" src="images/shuffle_split_cv.png">
 </p>
 
 Note that due to the randomized nature, some students appear in the test split multiple times.
@@ -104,7 +104,7 @@ Note that due to the randomized nature, some students appear in the test split m
 `StratifiedShuffleSplit` takes account of the stratification of the entire dataset with regards to some target variable (which here is `uni (y/n)` again)
 
 <p align="center">
-  <img width="600" src="strat_shuffle_split_cv.png">
+  <img width="600" src="images/strat_shuffle_split_cv.png">
 </p>
 
 ### Group Shuffle Split
@@ -112,7 +112,7 @@ Note that due to the randomized nature, some students appear in the test split m
 `GroupShuffleSplit` ignores the stratification of the dataset with regards to target variable, but ensures that different groups are seperated in training and testing (our groups here are the graduation years)
 
 <p align="center">
-  <img width="600" src="group_shuffle_split_cv.png">
+  <img width="600" src="images/group_shuffle_split_cv.png">
 </p>
 
 Ok, so for 3 groups (school years in our case) the result is rather trivial, but we can see how this cross validator keeps groups seperated in train and test, doing this randomly with each CV iteration.
@@ -126,7 +126,7 @@ Following the last two examples, we might expect the next cross-validator to fol
 For our previous example, each group (school year) had the same proportion of students going on to study at university, therefore the `GroupStratifiedShuffleSplit` cross-validator performs similarly to `GroupShuffleSplit`:
 
 <p align="center">
-  <img width="600" src="group_stratified_shuffle_split_cv.png">
+  <img width="600" src="images/group_stratified_shuffle_split_cv.png">
 </p>
 
 ### The Difficulty in splitting by Group and keeping things Stratified
@@ -147,11 +147,11 @@ Here we'll go into detail about how we circumvent some of the problems raised in
 
 Firstly, we calculate some aggregates for all groups in our data, namely; the number of entries (_N_<sub>entries</sub>), the number of those entries with target variable `= True` (_N_<sub>target</sub>), and the proportion of target variable `= True` within the group (_N_<sub>target</sub>/_N_<sub>entries</sub>). This gives us a table which looks something like this:
 
-![alt text](table_1.png "Aggregate table for groups appearing in data set")
+![alt text](images/table_1.png "Aggregate table for groups appearing in data set")
 
 Next we randomly select (without replacement) one group and add it (i.e. all entries belonging to that group) to the training set:
 
-![alt text](table_2.PNG "Randomly select a single group")
+![alt text](images/table_2.PNG "Randomly select a single group")
 
 The first thing to check now that we've begun contructing our training set is the ratio of train to test splits. The user specifies a ratio _R_<sub>tt</sub> &#8797; _N_<sub>test</sub>/_N_<sub>train</sub> and we want to get as close to that as possible, so we check that the current number of entries in our (under construction) training set, let's call it _N_<sub>train,1</sub> (it's simply = 45 in our example here), is sufficient. That is, if: 
 
@@ -182,11 +182,11 @@ If you inspect this value carefully, you'll see it has some properties we'd like
 
 where &#946; is a hyperparameter, or if you like, an inverse temprature. Now we simply calculate this value for all groups not yet selected in our (under construction) training set...
 
-![alt text](table_3.PNG "Assign probabilities to all other groups")
+![alt text](images/table_3.PNG "Assign probabilities to all other groups")
 
 ... and then select the next group based on these probablities _P_<sub>1</sub>.
 
-![alt text](table_4.png "Randomly select another group to add based on probailities P1")
+![alt text](images/table_4.png "Randomly select another group to add based on probailities P1")
 
 Now we simply go ahead and repeat this process, calculating the current number of entries in our (under construction) training set, _N_<sub>train,2</sub>, (it's = 152 in our example here),
 and ensuring the inequality:
@@ -205,7 +205,7 @@ holds, calculate updated probabilities for the remaining groups using the genera
 <img src="https://latex.codecogs.com/gif.latex?P_i(j)&space;=&space;softmax(\Delta_{i,j}\beta)" title="P_i(j) = softmax(\Delta_{i,j}\beta)" />
 </p>
 
-![alt text](table_5.png "Once more, assign probabilities to all other groups")
+![alt text](images/table_5.png "Once more, assign probabilities to all other groups")
 
 This process continues until we've added _k_ groups to our (under construction) training set s.t. the inequalities:
 
