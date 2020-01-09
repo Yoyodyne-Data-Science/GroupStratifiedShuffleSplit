@@ -3,7 +3,7 @@
 
 # Group Stratified Shuffle Split (Binary)
 
-This README describes the cross-validator `GroupStratifiedShuffleSplitBinary` which, as the name might suggest, generates stratified and grouped cross validation folds. The process of generating such a cross-validator is a bit more involved than the standard CV types available e.g. in `sklearn`, a point I've laboured to get across in the section _Group Stratified Shuffle Split_.
+This README describes the cross-validator `GroupStratifiedShuffleSplitBinary` which, as the name might suggest, generates stratified and grouped cross validation folds. The process of generating such a cross-validator is a bit more involved than the standard CV types available e.g. in `sklearn`, a point I've laboured to get across in the section _Group Stratified Shuffle Split_. Anyway, I hope this cross-validator is useful, and the example clear to you.
 
 Before jumping into the specifics of this cross-validator, perhaps it's wise to remind ourselves why we use cross-validation when training our models, and to discuss which types of cross-validators are open to us. 
 
@@ -222,3 +222,22 @@ and
 </p>
 
 hold. Our completed training set then contains either _k_ or _k-1_ entries, whichever gives a ratio closer to _R_<sub>tt</sub>.
+
+### A better example
+
+Let's consider a more complex version of the previous dataset. Namely, we'll generate a dataset with 1000
+students who are distributed between 20 different year groups, and this time we'll include some features to train our model on. Our target variable will again be `uni (y/n)`. Let's take a look at the first few rows: 
+
+| name      |   final_year |   height_cm |       iq |   weight_kg | uni (y/n)   |
+|:----------|-------------:|------------:|---------:|------------:|:------------|
+| Rosemary  |         2010 |     163.075 |  83.6299 |     35.2404 | False       |
+| Jackie    |         2008 |     149.774 |  81.2499 |     46.9199 | False       |
+| Devon     |         2004 |     176.356 | 143.567  |     68.9267 | False       |
+| Wilburn   |         2006 |     128.204 |  85.4863 |     44.182  | False       |
+| Anastasia |         2016 |      73.213 | 128.171  |     39.424  | True        |
+
+Let's plot this dataset in the same way we did with our smaller one earlier. There are too many names to be resolved clearly, but we include them just to drive home the idea that each point on the x-axis corresponds to a different entry in our dataset (i.e. a different student in this example).
+
+<p align="center">
+  <img width="600" src="images/group_shuffle_split_cv_full.png">
+</p>
