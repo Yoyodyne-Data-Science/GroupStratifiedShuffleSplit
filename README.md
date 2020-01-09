@@ -241,3 +241,51 @@ Let's plot this dataset in the same way we did with our smaller one earlier. The
 <p align="center">
   <img width="600" src="images/group_stratified_shuffle_split_cv_full.png">
 </p>
+
+Let's go ahead and train a Random Forest model on this data (where we're attempting to predict whether a given student will go to uni). We'll want to tweak the hyperparameters, and for that we'll need a cross validator. Specifically, we'll perform a random hyper parameter search using `sklearn`'s `RandomizedSearchCV` function, and we'll do this three seperate times, using three seperate cross validators; `StratifiedShuffleSplit`, `GroupShuffleSplit`, and our very own `GroupStratifiedShuffleSplitBinary`.
+
+Let's take a look at the scoring metric (we chose area under the precision recall curve here, which is normally a pretty good choice for imbalanced data) for after each iteration for each CV:
+
+<p align="center">
+  <img width="800" src="images/3_CVs_hyperparam_search.png">
+</p>
+
+Ok, so following this, we now have three different Random Forest models, each with their own 'optimal' parameters (i.e. the model giving the highest area under the precision recall curve in each of the above three plots). But what we really want to know is how well they perform on unseen data. With this in mind, let's try them out on the next academic year's students. Again, let's show the first few rows:
+
+| name    |   final_year |   height_cm |       iq |   weight_kg | uni (y/n)   |
+|:--------|-------------:|------------:|---------:|------------:|:------------|
+| Davis   |         2020 |    150.74   |  78.2723 |     44.4224 | False       |
+| George  |         2020 |    107.643  | 120.279  |     49.3231 | False       |
+| Kerry   |         2020 |     97.338  |  99.4542 |     59.7697 | False       |
+| Jean    |         2020 |    123.797  | 121.838  |     59.5049 | False       |
+| Lavonne |         2020 |     86.5739 | 120.254  |     60.8119 | True        |
+
+Let's run our three models on our unseen data and see what happens, the confusion matrices will give us a great idea of how each model is performing.
+
+Model optimized using `GroupShuffleSplit`:
+
+ |        | PN | PY | 
+ | ---    | --- | --- | 
+ | **AN** | 45 | 0 | 
+ | **AY** | 2 | 3 |
+
+ Model optimized using StratifiedShuffleSplit:
+ 
+ |        | PN | PY | 
+ | ---    | --- | --- | 
+ | **AN** | 45 | 0 | 
+ | **AY** | 3 | 2 |
+ 
+ Model optimized using GroupStratifiedShuffleSplitBinary:
+
+  |        | PN | PY | 
+ | ---    | --- | --- | 
+ | **AN** | 45 | 0 | 
+ | **AY** | 1 | 4 |
+
+ So we see for this example, the model optimized using a grouped and stratified cross-validator out-performs the other two (if you prefer a single number, the f1 scores were 0.57, 0.75, and 0.89 for models optimized using  `StratifiedShuffleSplit`, `GroupShuffleSplit`, and `GroupStratifiedShuffleSplitBinary`, respectively). If you run this code in the notebook, your randomly generated dataset will be different, and you may not see such a clear distinction between the three.
+
+### Conclusion
+
+I hope this example and my explanations made it a little clearer how this `GroupStratifiedShuffleSplitBinary` cross-validator performs.
+ 
