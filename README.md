@@ -3,6 +3,8 @@
 
 # Group Stratified Shuffle Split (Binary)
 
+This README describes the cross-validator `GroupStratifiedShuffleSplitBinary` which, as the name might suggest, generates stratified and grouped cross validation folds. The process of generating such a cross-validator is a bit more involved than the standard CV types available e.g. in `sklearn`, a point I've laboured to get across in the section _Group Stratified Shuffle Split_.
+
 Before jumping into the specifics of this cross-validator, perhaps it's wise to remind ourselves why we use cross-validation when training our models, and to discuss which types of cross-validators are open to us. 
 
 ## Life without cross-validation
