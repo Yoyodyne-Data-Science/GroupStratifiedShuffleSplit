@@ -239,5 +239,5 @@ students who are distributed between 20 different year groups, and this time we'
 Let's plot this dataset in the same way we did with our smaller one earlier. There are too many names to be resolved clearly, but we include them just to drive home the idea that each point on the x-axis corresponds to a different entry in our dataset (i.e. a different student in this example).
 
 <p align="center">
-  <img width="600" src="images/group_shuffle_split_cv_full.png">
+  <img width="600" src="images/group_stratified_shuffle_split_cv_full.png">
 </p>
