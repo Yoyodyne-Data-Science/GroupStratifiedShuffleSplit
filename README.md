@@ -269,14 +269,14 @@ Model optimized using `GroupShuffleSplit`:
  | **AN** | 45 | 0 | 
  | **AY** | 2 | 3 |
 
- Model optimized using StratifiedShuffleSplit:
+ Model optimized using `StratifiedShuffleSplit`:
  
  |        | PN | PY | 
  | ---    | --- | --- | 
  | **AN** | 45 | 0 | 
  | **AY** | 3 | 2 |
  
- Model optimized using GroupStratifiedShuffleSplitBinary:
+ Model optimized using `GroupStratifiedShuffleSplitBinary`:
 
   |        | PN | PY | 
  | ---    | --- | --- | 
@@ -289,3 +289,28 @@ Model optimized using `GroupShuffleSplit`:
 
 I hope this example and my explanations made it a little clearer how this `GroupStratifiedShuffleSplitBinary` cross-validator performs.
  
+## Brushing over &#946;
+ 
+ Earlier, when we were explaining how the test portion of the cross-validator fold we brushed over the parameter &#946; in the softmax function. Perhaps now that we have a concrete example, we can give a more substantial sense as to the meaning of &#946;.
+
+We're going to make use of the `GroupStratifiedShuffleSplitBinary` class' `test_make_one_group_stratified_shuffle_split` method. This method constructs a single training set, several times, keeping track of how often each group occurs in this training set. This is important, because we'd like to sample many different groups over the course of cross-validation -- with the constraint that the train and test splits have a stratification close enough to that of the full dataset. Let's see how this looks for the `GroupStratifiedShuffleSplitBinary` cross-validator we just trained:
+
+<p align="center">
+  <img width="800" src="images/beta_plot_100.png">
+</p>
+
+We see that some groups are chosen more than others (different sizes of purple bars). You'll notice that the groups which are chosen most frequently are those with extreme values of stratification (magenta dots). Having explained how the training set is built, this makes sense; the training set oscillates between a too low and too high stratification until it settles on a stable value. The &#946; gives us a way to smooth out this tendency.
+
+We can see this by lowering &#946; from its default value of 100 to 10:
+
+<p align="center">
+  <img width="800" src="images/beta_plot_10.png">
+</p>
+
+Conversely, raising &#946; to 1000 amplifies this disparity:
+
+<p align="center">
+  <img width="800" src="images/beta_plot_1000.png">
+</p>
+
+The key is to find a balance; a small enough &#946; to give a relatively homogeneous distribution of groups, but not so small that the training set's stratification doesn't mirror that of the full dataset.
