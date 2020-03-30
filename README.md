@@ -158,7 +158,7 @@ Next we randomly select (without replacement) one group and add it (i.e. all ent
 The first thing to check now that we've begun contructing our training set is the ratio of train to test splits. The user specifies a ratio _R_<sub>tt</sub> &#8797; _N_<sub>test</sub>/_N_<sub>train</sub> and we want to get as close to that as possible, so we check that the current number of entries in our (under construction) training set, let's call it _N_<sub>train,1</sub> (it's simply = 45 in our example here), is sufficient. That is, if: 
 
 <p align="center">
-<img src="https://latex.codecogs.com/svg.latex?\frac{N-N_{train,1}}{N_{train,1}}&space;>&space;R_{tt}" title="\frac{N-N_{train,1}}{N_{train,1}} > R_{tt}" />
+<img src="images/eq_1.svg" title="\frac{N-N_{train,1}}{N_{train,1}} > R_{tt}" />
 </p>
 
 then we must add further groups to our training set. Let's safely assume that for our ficticious dataset, after selecting a single group, this is the case. Then we need to add some more entries, i.e. another group, to our training set. But which group should we choose? 
@@ -172,14 +172,14 @@ Now, back to the matter of bulking up our training set. When choosing the next g
 Concretely, let's define a value &#916;<sub>_1_,_j_</sub> for each group in our dataset as:
 
 <p align="center">
-<img src="https://latex.codecogs.com/gif.latex?\Delta_{1,j}&space;=&space;(I(t_1)-I(g_j))&space;\times&space;sgn(I(t_1)-I(t_N)))" title="\Delta_{1,j} = (I(t_1)-I(g_j)) \times sgn(I(t_1)-I(t_N)))" />
+<img src="images/eq_2.gif" title="\Delta_{1,j} = (I(t_1)-I(g_j)) \times sgn(I(t_1)-I(t_N)))" />
 </p>
 
 If you inspect this value carefully, you'll see it has some properties we'd like for choosing the next group to add. Concretely, if our training set currently contains too small a proportion of positive training examples (i.e. _sgn_(_I_(_t_<sub>1</sub>)-_I_(_t_<sub>_N_</sub>))<0) then, as we've already said, we'd like to add groups with a large proportion of positive examples (i.e. _I_(_t_<sub>1</sub>)-_I_(_g_<sub>_j_</sub>) < 0), i.e. groups with a large positive value of &#916;<sub>_1_,_j_</sub>. You should be able to work out that the converse scenario also leads to desiring groups with large positive &#916;<sub>_1_,_j_</sub> for our next addition to the training set. We can transform this &#916;<sub>_1_,_j_</sub> into a probability via:
 
 
 <p align="center">
-<img src="https://latex.codecogs.com/gif.latex?P_1(j)&space;=&space;softmax(\Delta_{1,j}\beta)" title="P_1(j) = softmax(\Delta_{1,j}\beta)" />
+<img src="images/eq_3.gif" title="P_1(j) = softmax(\Delta_{1,j}\beta)" />
 </p>
 
 where &#946; is a hyperparameter, or if you like, an inverse temprature. Now we simply calculate this value for all groups not yet selected in our (under construction) training set...
@@ -194,17 +194,17 @@ Now we simply go ahead and repeat this process, calculating the current number o
 and ensuring the inequality:
 
 <p align="center">
-<img src="https://latex.codecogs.com/gif.latex?\frac{N-N_{train,2}}{N_{train,2}}&space;>&space;R_{tt}" title="\frac{N-N_{train,2}}{N_{train,2}} > R_{tt}" />
+<img src="images/eq_4.gif" title="\frac{N-N_{train,2}}{N_{train,2}} > R_{tt}" />
 </p>
 
 holds, calculate updated probabilities for the remaining groups using the generalized forms of &#916; and _P_:
 
 <p align="center">
-<img src="https://latex.codecogs.com/gif.latex?\Delta_{i,j}=(I(t_i)-I(g_j))\times&space;sgn(I(t_i)-I(t_N)))" title="\Delta_{i,j}=(I(t_i)-I(g_j))\times sgn(I(t_i)-I(t_N)))" />
+<img src="images/eq_5.gif" title="\Delta_{i,j}=(I(t_i)-I(g_j))\times sgn(I(t_i)-I(t_N)))" />
 </p>
 
 <p align="center">
-<img src="https://latex.codecogs.com/gif.latex?P_i(j)&space;=&space;softmax(\Delta_{i,j}\beta)" title="P_i(j) = softmax(\Delta_{i,j}\beta)" />
+<img src="images/eq_6.gif" title="P_i(j) = softmax(\Delta_{i,j}\beta)" />
 </p>
 
 ![alt text](images/table_5.png "Once more, assign probabilities to all other groups")
@@ -212,13 +212,13 @@ holds, calculate updated probabilities for the remaining groups using the genera
 This process continues until we've added _k_ groups to our (under construction) training set s.t. the inequalities:
 
 <p align="center">
-<img src="https://latex.codecogs.com/gif.latex?\frac{N-N_{train,k}}{N_{train,k}}&space;\leq&space;R_{tt}" title="\frac{N-N_{train,k}}{N_{train,k}} \leq R_{tt}" />
+<img src="images/eq_7.gif" title="\frac{N-N_{train,k}}{N_{train,k}} \leq R_{tt}" />
 </p>
 
 and
 
 <p align="center">
-<img src="https://latex.codecogs.com/gif.latex?\frac{N-N_{train,k-1}}{N_{train,k-1}}&space;>&space;R_{tt}" title="\frac{N-N_{train,k-1}}{N_{train,k-1}} > R_{tt}" />
+<img src="images/eq_8.gif" title="\frac{N-N_{train,k-1}}{N_{train,k-1}} > R_{tt}" />
 </p>
 
 hold. Our completed training set then contains either _k_ or _k-1_ entries, whichever gives a ratio closer to _R_<sub>tt</sub>.
